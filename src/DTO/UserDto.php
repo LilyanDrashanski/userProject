@@ -1,32 +1,39 @@
 <?php
 
-namespace App\DTO\Request;
+namespace App\DTO;
 
 use DateTimeInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserDto
 {
-    #[Assert\NotBlank(message: "Email should not be blank", groups: ['create'])]
-    #[Assert\Email(message: "Email should be valid", groups: ['create'])]
+
+    #[Assert\NotBlank(message: "Email should not be blank",groups: ['update','create'])]
+    #[Assert\Email(message: "Email should be valid", groups: ['update','create'])]
     public string $email;
-    #[Assert\NotBlank(message: "First name should not be blank", groups: ['create'])]
-    #[Assert\Length(min: 3, groups: ['create'])]
-    #[Assert\Type(type: "alpha", groups: ['create'])]
+
+    #[Assert\NotBlank(message: "First name should not be blank",groups: ['update','create'])]
+    #[Assert\Length(min: 3, groups: ['update','create'])]
+    #[Assert\Type(type: "alpha", groups: ['update','create'])]
     public string $firstName;
-    #[Assert\Type(type: "alpha", groups: ['create'])]
-    #[Assert\Length(min: 3, groups: ['create'])]
-    public string $middleName;
-    #[Assert\Type(type: "alpha", groups: ['create'])]
-    #[Assert\NotBlank(message: "Last name should not be blank", groups: ['create'])]
-    #[Assert\Length(min: 3, groups: ['create'])]
+
+    #[Assert\Type(type: "alpha", groups: ['update','create'])]
+    #[Assert\Length(min: 3, groups: ['update','create'])]
+    public ?string $middleName = null;
+
+    #[Assert\Type(type: "alpha", groups: ['update','create'])]
+    #[Assert\NotBlank(message: "Last name should not be blank",groups: ['update','create'])]
+    #[Assert\Length(min: 3, groups: ['update','create'])]
     public string $lastName;
-    #[Assert\NotBlank(message: "Country should not be blank", groups: ['create'])]
-    #[Assert\Country(groups: ['create'])]
+
+    #[Assert\NotBlank(message: "Country should not be blank",groups: ['update','create'])]
+    #[Assert\Country(groups: ['update','create'])]
     public string $country;
-    #[Assert\NotBlank(message: "Date of birth should not be blank", groups: ['create', 'update'])]
-    #[Assert\LessThan('-18 years', message: "User should be 18 years old", groups: ['create'])]
+
+    #[Assert\NotBlank(message: "Date of birth should not be blank",groups: ['create','update'])]
+    #[Assert\LessThan('-18 years', message: "User should be 18 years old", groups: ['update','create'])]
     protected DateTimeInterface $dateOfBirth;
+
 
     public function getEmail(): string
     {
@@ -48,12 +55,12 @@ class UserDto
         $this->firstName = $firstName;
     }
 
-    public function getMiddleName(): string
+    public function getMiddleName(): ?string
     {
         return $this->middleName;
     }
 
-    public function setMiddleName(string $middleName): void
+    public function setMiddleName(?string $middleName): void
     {
         $this->middleName = $middleName;
     }
